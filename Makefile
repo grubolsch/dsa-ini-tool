@@ -10,7 +10,7 @@ NODE    := $(DC) run --rm node
 TEST_DB_URL := DATABASE_URL=sqlite:///%kernel.project_dir%/var/test.db APP_ENV=test
 
 .PHONY: help up down build install migrate seed test test-backend test-frontend \
-        build-front shell logs reset-db
+        build-front shell bash logs reset-db
 
 help: ## List available targets
 	@echo "Turn Tracker — make targets:"
@@ -24,7 +24,8 @@ help: ## List available targets
 	@echo "  test-backend   Prepare test DB then run PHPUnit"
 	@echo "  test-frontend  Run frontend (vitest) tests"
 	@echo "  build-front    Production React build"
-	@echo "  shell          Shell into the php container"
+	@echo "  shell          Shell (sh) into the php container"
+	@echo "  bash           Bash shell into the php container"
 	@echo "  logs           Tail logs for all services"
 	@echo "  reset-db       Drop, create, migrate and seed the database"
 
@@ -61,6 +62,9 @@ build-front: ## Production React build
 
 shell: ## Shell into the php container
 	$(DC) exec php sh
+
+bash: ## Bash shell into the php container
+	$(DC) exec php bash
 
 logs: ## Tail logs
 	$(DC) logs -f

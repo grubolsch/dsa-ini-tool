@@ -33,28 +33,37 @@
 }
 
 /* Compact header: small banner so the screen leads with the initiative line. */
-.live-atmosphere-compact {
+/* Compact banner: the atmosphere image fills the whole background and the
+   title is overlaid at the bottom-left. A fixed height (taller than the title)
+   guarantees the tall Cinzel caps are never clipped by overflow:hidden. */
+.live-atmosphere.live-atmosphere-compact {
+  position: relative;
+  min-height: 108px;
   margin-bottom: 0.8rem;
   background: linear-gradient(180deg, rgba(50, 38, 22, 0.6), rgba(20, 14, 8, 0.6));
 }
 
-.live-atmosphere-compact img {
-  max-height: 96px;
+.live-atmosphere.live-atmosphere-compact img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
 }
 
-/* In compact mode the title flows in normal layout (not an absolute overlay),
-   so the box grows to fit it and the tall Cinzel caps are never clipped by the
-   parent's overflow:hidden. Higher specificity to beat the base .overlay rules. */
 .live-atmosphere.live-atmosphere-compact .overlay {
-  position: static;
-  padding: 0.4rem 1rem 0.55rem;
-  background: linear-gradient(to top, rgba(10, 6, 2, 0.85), transparent);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 0.5rem 1.1rem 0.6rem;
+  background: linear-gradient(to top, rgba(10, 6, 2, 0.9), transparent 70%);
 }
 
 .live-atmosphere.live-atmosphere-compact .overlay h1 {
   font-size: clamp(1rem, 2.2vw, 1.4rem);
-  line-height: 1.45;
-  padding-top: 0.08em;
+  line-height: 1.3;
 }
 
 .live-atmosphere .overlay {
