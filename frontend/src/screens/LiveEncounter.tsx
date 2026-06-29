@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   addCombatant,
@@ -61,6 +61,34 @@ export function LiveEncounter({ dm }: Props) {
       setBusy(false);
     }
   };
+
+  // DM shortcut: pressing Enter advances the turn — but only on the DM screen,
+  // when no modal is open, the fight isn't at the end-of-round screen, and the
+  // focus isn't in a form field/button (so editing INI/LE or activating another
+  // control isn't hijacked, and the focused End-of-turn button can't double-fire).
+  useEffect(() => {
+    if (!dm) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter') return;
+      if (showStatus || showAddChar || showQr) return;
+      if (busy || !state || state.phase === 'END_OF_ROUND') return;
+      const t = e.target as HTMLElement | null;
+      const tag = t?.tagName;
+      if (
+        t?.isContentEditable ||
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        tag === 'SELECT' ||
+        tag === 'BUTTON'
+      ) {
+        return;
+      }
+      e.preventDefault();
+      void run(() => nextTurn(code));
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [dm, showStatus, showAddChar, showQr, busy, state, code]);
 
   if (loading && !state) {
     return (
