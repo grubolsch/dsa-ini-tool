@@ -1,0 +1,13 @@
+/vendor/
+/backend/vendor/
+node_modules/
+/frontend/node_modules/
+/var/
+/backend/var/
+.env.local
+.env.*.local
+/backend/public/uploads/*
+!/backend/public/uploads/.gitkeep
+/backend/public/gallery/*
+!/backend/public/gallery/.gitkeep
+/frontend/dist/

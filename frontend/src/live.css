@@ -1,0 +1,442 @@
+/* Styles specific to the live encounter screen + the hero initiative line. */
+
+.live-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.2rem 1.2rem 4rem;
+}
+
+.live-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.live-atmosphere {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid var(--gold-deep);
+  box-shadow: 0 12px 36px var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.live-atmosphere img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.05) contrast(1.03);
+}
+
+/* Compact header: small banner so the screen leads with the initiative line. */
+.live-atmosphere-compact {
+  margin-bottom: 0.8rem;
+}
+
+.live-atmosphere-compact img {
+  max-height: 96px;
+}
+
+.live-atmosphere-compact .overlay {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to top, rgba(10, 6, 2, 0.85), transparent 80%);
+}
+
+.live-atmosphere-compact .overlay h1 {
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+
+.live-atmosphere .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 6, 2, 0.85), transparent 55%);
+  display: flex;
+  align-items: flex-end;
+  padding: 1.2rem 1.5rem;
+}
+
+.live-atmosphere .overlay h1 {
+  color: var(--gold-bright);
+  text-shadow: 0 2px 8px #000;
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+}
+
+.round-pill {
+  font-family: var(--font-display);
+  color: var(--gold-bright);
+  border: 2px solid var(--gold-deep);
+  border-radius: 999px;
+  padding: 0.3rem 1rem;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* ============ INITIATIVE LINE — the hero feature ============ */
+
+.ini-rail {
+  position: relative;
+  margin: 2.6rem 0 1.5rem;
+  padding: 3.5rem 2rem 2rem;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at center, rgba(255, 207, 110, 0.08), transparent 70%),
+    linear-gradient(180deg, rgba(50, 38, 22, 0.6), rgba(20, 14, 8, 0.6));
+  border: 2px solid var(--gold-deep);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ornate horizontal rail bar behind the medallions */
+.ini-rail::before {
+  content: '';
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  top: 50%;
+  height: 8px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-deep) 6%,
+    var(--gold) 50%,
+    var(--gold-deep) 94%,
+    transparent
+  );
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(201, 162, 58, 0.4);
+}
+
+.ini-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  overflow-x: auto;
+  padding: 1rem 0.5rem;
+  z-index: 1;
+}
+
+.ini-track::-webkit-scrollbar {
+  height: 8px;
+}
+.ini-track::-webkit-scrollbar-thumb {
+  background: var(--gold-deep);
+  border-radius: 4px;
+}
+
+/* end-of-line marker */
+.ini-end {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  color: var(--gold-bright);
+  text-align: center;
+  padding: 0 0.5rem;
+  opacity: 0.7;
+}
+
+/* ---- medallion ---- */
+.medallion {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+.medallion .frame {
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid var(--gold-deep);
+  background: var(--iron);
+  overflow: hidden;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+.medallion .frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.medallion .frame .placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  color: var(--gold-bright);
+  font-size: 1.6rem;
+}
+
+.medallion.side-PARTY .frame {
+  border-color: var(--party-glow);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5), 0 0 0 2px var(--party) inset;
+}
+.medallion.side-ENEMIES .frame {
+  border-color: var(--enemies-glow);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5), 0 0 0 2px var(--enemies) inset;
+}
+
+.medallion.active .frame {
+  border-color: var(--gold-bright);
+  box-shadow:
+    0 0 0 4px var(--gold) ,
+    0 0 28px 8px rgba(255, 207, 110, 0.7),
+    0 8px 22px rgba(0, 0, 0, 0.6);
+  animation: candle-flicker 2.4s ease-in-out infinite;
+}
+
+@keyframes candle-flicker {
+  0%, 100% { box-shadow: 0 0 0 4px var(--gold), 0 0 26px 6px rgba(255, 207, 110, 0.65), 0 8px 22px rgba(0,0,0,0.6); }
+  50% { box-shadow: 0 0 0 4px var(--gold-bright), 0 0 34px 12px rgba(255, 207, 110, 0.85), 0 8px 22px rgba(0,0,0,0.6); }
+}
+
+.medallion.out .frame img,
+.medallion.out .frame .placeholder {
+  filter: grayscale(1) brightness(0.6);
+}
+
+.medallion .name {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--parchment);
+  max-width: 96px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px #000;
+}
+
+.medallion.active .name {
+  color: var(--gold-bright);
+  font-size: 0.95rem;
+}
+
+.medallion .ini-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  color: #2b2008;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--gold-deep);
+  padding: 0 4px;
+  z-index: 2;
+}
+
+.health-band {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--enemies-glow);
+}
+
+.band-FULL { color: #8fd98f; }
+.band-DAMAGED { color: var(--gold-bright); }
+.band-HEAVILY_DAMAGED { color: #ffae5e; }
+.band-ALMOST_DEFEATED { color: var(--enemies-glow); }
+
+.pending-flag {
+  margin-top: 0.15rem;
+  font-size: 0.65rem;
+  color: var(--candle);
+  font-style: italic;
+}
+
+/* ============ active panel + status effects ============ */
+
+.live-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 880px) {
+  .live-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.active-panel {
+  text-align: center;
+}
+
+/* Compact horizontal layout: image left, name + edit form right. */
+.active-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  text-align: left;
+}
+
+.active-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.active-portrait {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 4px solid var(--gold-bright);
+  box-shadow: 0 0 30px rgba(255, 207, 110, 0.6);
+  margin: 0;
+  flex: 0 0 auto;
+  background: var(--iron);
+}
+
+.apply-changes-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 0.7rem 1.3rem;
+}
+
+@media (max-width: 520px) {
+  .active-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.active-ini {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--gold-deep);
+}
+
+.status-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-list li {
+  position: relative;
+  padding: 0.7rem 0.9rem 0.7rem 2.2rem;
+  margin-bottom: 0.7rem;
+  background: rgba(255, 250, 235, 0.6);
+  border: 1px solid var(--gold-deep);
+  border-left: 5px solid var(--blood);
+  border-radius: 6px;
+}
+
+.status-list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0.7rem;
+  top: 0.7rem;
+  color: var(--blood);
+}
+
+.status-list .se-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.status-list .se-rounds {
+  float: right;
+  font-family: var(--font-display);
+  color: var(--gold-deep);
+  font-size: 0.85rem;
+}
+
+.status-list .se-tag {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ============ end of round screen ============ */
+
+.eor-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at center, rgba(123, 31, 31, 0.35), transparent 60%),
+    rgba(6, 4, 2, 0.94);
+}
+
+.eor-card {
+  max-width: 720px;
+  width: 100%;
+  text-align: center;
+}
+
+.eor-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-weight: 900;
+  color: #1a1206;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  margin-bottom: 1rem;
+}
+
+.eor-effects {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.eor-effects li {
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.7rem;
+  background: rgba(255, 250, 235, 0.55);
+  border: 1px solid var(--gold-deep);
+  border-radius: 8px;
+  color: #1a1206;
+}
+
+.eor-effects .label {
+  font-family: var(--font-display);
+  color: #1a1206;
+  font-weight: 700;
+  margin-right: 0.4rem;
+}
+
+/* DM control bar — sits directly below the initiative line. */
+.dm-bar {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1rem;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(30, 22, 12, 0.6), rgba(15, 10, 6, 0.95));
+  border: 2px solid var(--gold-deep);
+  border-radius: 12px;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.4);
+}
+
+.dm-hint {
+  font-size: 0.8rem;
+  color: var(--candle);
+  font-style: italic;
+}
