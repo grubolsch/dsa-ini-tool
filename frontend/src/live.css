@@ -388,6 +388,23 @@
   font-size: 0.85rem;
 }
 
+/* bare red trash icon in the top corner, next to the rounds counter */
+.status-list .se-delete {
+  float: right;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--blood);
+  font-size: 0.95rem;
+}
+
+.status-list .se-delete:hover {
+  color: var(--blood-bright);
+}
+
 .status-list .se-tag {
   font-size: 0.72rem;
   font-style: italic;

@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { StatusEffect } from '../types';
 import { liveStatusEffects } from '../logic';
-import { IconButton } from './IconButton';
 
 interface Props {
   effects: StatusEffect[];
@@ -34,6 +34,16 @@ export function StatusEffectList({ effects, dm, onRemove }: Props) {
             exit={{ opacity: 0, scale: 0.6 }}
             transition={{ type: 'spring', stiffness: 320, damping: 24 }}
           >
+            {dm && onRemove && (
+              <button
+                className="se-delete"
+                title={`Remove ${e.name}`}
+                aria-label={`Remove ${e.name}`}
+                onClick={() => onRemove(e.id)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            )}
             <span className="se-rounds">
               {e.durationRounds} {e.durationRounds === 1 ? 'round' : 'rounds'}
             </span>
@@ -45,15 +55,6 @@ export function StatusEffectList({ effects, dm, onRemove }: Props) {
                 <> {e.triggerAtRoundEnd ? '· ' : ''}({groupLabel(e.groupTag)})</>
               )}
             </div>
-            {dm && onRemove && (
-              <IconButton
-                icon={faTrash}
-                label={`Remove ${e.name}`}
-                className="btn-sm btn-danger"
-                style={{ marginTop: '0.4rem' }}
-                onClick={() => onRemove(e.id)}
-              />
-            )}
           </motion.li>
         ))}
       </AnimatePresence>

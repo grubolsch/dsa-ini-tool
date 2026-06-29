@@ -183,7 +183,7 @@ export function LiveEncounter({ dm }: Props) {
             <FontAwesomeIcon icon={faUserShield} /> Add status effect to self
           </button>
           <button
-            className="btn"
+            className="btn btn-sm"
             disabled={busy}
             onClick={() => setShowAddChar(true)}
           >
