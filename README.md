@@ -82,6 +82,30 @@ make help            # list all targets
 
 ---
 
+## Player QR code & base URL
+
+On the live encounter screen there's a **QR icon** next to the share code. Clicking it shows a QR
+code that opens the read-only **player view** (`/play/<CODE>`) when scanned — the same as typing the
+code on the home screen.
+
+By default the QR encodes the address the DM's browser is using (`window.location.origin`). If you
+open the app at `http://localhost:5173`, a phone **cannot** reach `localhost` — so set a base URL
+that points at your machine's LAN address via the **`VITE_PLAYER_BASE_URL`** env var.
+
+Configure it in the `node` service of `docker-compose.yml` (find your machine's IP first, e.g.
+`ipconfig getifaddr en0` on macOS or `hostname -I` on Linux):
+
+```yaml
+  node:
+    environment:
+      # Make scanned QR codes point at a LAN address phones can reach:
+      VITE_PLAYER_BASE_URL: "http://192.168.1.20:5173"
+```
+
+Then restart the frontend: `docker compose up -d node` (Vite reads env vars at startup). Leave it
+unset to fall back to the current origin. The value must include the scheme and port and have **no**
+trailing `/play` — the app appends `/play/<CODE>` itself.
+
 ## Notes
 - **Gallery images** are not committed (the sample BMP portraits are excluded via `.gitignore`).
   Drop your own `.png` / `.jpg` / `.bmp` files into `backend/public/gallery/` and they'll appear in

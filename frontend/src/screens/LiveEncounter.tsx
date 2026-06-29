@@ -24,9 +24,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck,
   faHeartPulse,
+  faQrcode,
   faSkullCrossbones,
   faUserShield,
 } from '@fortawesome/free-solid-svg-icons';
+import { QrCodeModal } from '../components/QrCodeModal';
 
 interface Props {
   dm: boolean;
@@ -39,6 +41,7 @@ export function LiveEncounter({ dm }: Props) {
   const [actionError, setActionError] = useState<string | null>(null);
   const [showStatus, setShowStatus] = useState(false);
   const [showAddChar, setShowAddChar] = useState(false);
+  const [showQr, setShowQr] = useState(false);
   // When the status modal is opened via "to self", holds the active combatant id
   // to pre-select; null when opened for the general "Add status effect".
   const [statusPreselectId, setStatusPreselectId] = useState<number | null>(null);
@@ -99,6 +102,12 @@ export function LiveEncounter({ dm }: Props) {
           <span className="code-chip" title="Share code">
             {state.code}
           </span>
+          <IconButton
+            icon={faQrcode}
+            label="Show QR code to join"
+            className="btn-sm"
+            onClick={() => setShowQr(true)}
+          />
         </div>
       </div>
 
@@ -236,6 +245,20 @@ export function LiveEncounter({ dm }: Props) {
                           onClick={() => run(() => outOfCombat(code, active.id))}
                         />
                       ))}
+
+                    {/* Enemy shortcut: "out of combat" sets LE to 0 (removes it). */}
+                    {active.side === 'ENEMIES' && (
+                      <IconButton
+                        icon={faSkullCrossbones}
+                        label="Out of combat (set LE to 0)"
+                        text="Out of combat"
+                        className="btn-sm btn-danger"
+                        disabled={busy}
+                        onClick={() =>
+                          run(() => patchCombatant(code, active.id, { le: 0 }))
+                        }
+                      />
+                    )}
                   </div>
                 )}
               </div>
@@ -285,6 +308,8 @@ export function LiveEncounter({ dm }: Props) {
           />
         </>
       )}
+
+      <QrCodeModal open={showQr} onClose={() => setShowQr(false)} code={state.code} />
     </div>
   );
 }

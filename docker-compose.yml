@@ -67,6 +67,10 @@ services:
       - "5173:5173"
     environment:
       VITE_MERCURE_URL: "http://localhost:8080/.well-known/mercure"
+      # Base URL encoded in the player-join QR code. Leave unset to use the
+      # browser's origin; set to your machine's LAN address so phones can reach
+      # it, e.g. "http://192.168.1.20:5173" (no trailing /play). See README.
+      # VITE_PLAYER_BASE_URL: "http://192.168.1.20:5173"
 
 volumes:
   mysql_data:
