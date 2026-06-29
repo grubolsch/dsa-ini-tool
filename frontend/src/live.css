@@ -123,6 +123,9 @@
   position: relative;
   display: flex;
   align-items: center;
+  /* fixed row height so varying portrait/label heights don't shift the
+     buttons below as the active medallion changes (no wobble) */
+  min-height: 210px;
   gap: 1.1rem;
   overflow-x: auto;
   padding: 1rem 2.5rem;

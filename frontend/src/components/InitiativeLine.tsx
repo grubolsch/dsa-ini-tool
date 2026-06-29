@@ -13,27 +13,27 @@ interface Props {
 /**
  * The headline feature: the ornate horizontal initiative rail. Combatants are
  * laid left→right in this round's frozen order; the active one is big + glows.
- * The rail auto-scrolls to keep the active combatant centered (no scrollbar);
- * off-screen combatants fade at the edges.
+ * The rail auto-scrolls to keep the active combatant centered; off-screen
+ * combatants fade at the edges.
  */
 export function InitiativeLine({ state, dm, onSelect }: Props) {
   const ordered = orderedCombatants(state);
   const activeId = state.activeCombatantId;
   const trackRef = useRef<HTMLDivElement>(null);
-  const activeRef = useRef<HTMLDivElement>(null);
 
   // Keep the active medallion centered as turns advance / the order changes.
-  // Deferred via double rAF so it runs after Framer Motion's layout/size springs
-  // have updated positions; scrollIntoView clamps correctly at the ends.
+  // We look the element up by data-cid (rather than a conditional ref, which is
+  // fragile across Framer Motion's layout commits) and scroll the track directly.
+  // Deferred via double rAF so it runs after the layout/size springs settle.
   useEffect(() => {
-    if (!activeRef.current) return;
+    const track = trackRef.current;
+    if (!track || activeId == null) return;
     const raf1 = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        activeRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          inline: 'center',
-          block: 'nearest',
-        });
+        const el = track.querySelector<HTMLElement>(`[data-cid="${activeId}"]`);
+        if (!el) return;
+        const left = el.offsetLeft - track.clientWidth / 2 + el.offsetWidth / 2;
+        track.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
       });
     });
     return () => cancelAnimationFrame(raf1);
@@ -47,7 +47,7 @@ export function InitiativeLine({ state, dm, onSelect }: Props) {
             {ordered.map((c) => (
               <div
                 key={c.id}
-                ref={c.id === activeId ? activeRef : undefined}
+                data-cid={c.id}
                 onClick={() => onSelect?.(c.id)}
                 style={{ cursor: onSelect ? 'pointer' : 'default' }}
               >
