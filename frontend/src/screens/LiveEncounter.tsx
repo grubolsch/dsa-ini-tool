@@ -103,10 +103,8 @@ export function LiveEncounter({ dm }: Props) {
       </div>
 
       <div className="live-atmosphere live-atmosphere-compact">
-        {state.encounter.atmospherePicture ? (
+        {state.encounter.atmospherePicture && (
           <img src={state.encounter.atmospherePicture} alt={state.encounter.name} />
-        ) : (
-          <div style={{ height: 64, background: 'var(--iron)' }} />
         )}
         <div className="overlay">
           <h1>{state.encounter.name}</h1>

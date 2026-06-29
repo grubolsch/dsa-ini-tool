@@ -35,19 +35,26 @@
 /* Compact header: small banner so the screen leads with the initiative line. */
 .live-atmosphere-compact {
   margin-bottom: 0.8rem;
+  background: linear-gradient(180deg, rgba(50, 38, 22, 0.6), rgba(20, 14, 8, 0.6));
 }
 
 .live-atmosphere-compact img {
   max-height: 96px;
 }
 
-.live-atmosphere-compact .overlay {
-  padding: 0.5rem 1rem;
-  background: linear-gradient(to top, rgba(10, 6, 2, 0.85), transparent 80%);
+/* In compact mode the title flows in normal layout (not an absolute overlay),
+   so the box grows to fit it and the tall Cinzel caps are never clipped by the
+   parent's overflow:hidden. Higher specificity to beat the base .overlay rules. */
+.live-atmosphere.live-atmosphere-compact .overlay {
+  position: static;
+  padding: 0.4rem 1rem 0.55rem;
+  background: linear-gradient(to top, rgba(10, 6, 2, 0.85), transparent);
 }
 
-.live-atmosphere-compact .overlay h1 {
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+.live-atmosphere.live-atmosphere-compact .overlay h1 {
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  line-height: 1.45;
+  padding-top: 0.08em;
 }
 
 .live-atmosphere .overlay {
@@ -79,7 +86,9 @@
 
 .ini-rail {
   position: relative;
-  margin: 2.6rem 0 1.5rem;
+  /* match the spacing the DM action bar uses (1.5rem) so the title doesn't
+     sit with a noticeably bigger gap above the line than below it */
+  margin: 1.5rem 0 1.5rem;
   padding: 3.5rem 2rem 2rem;
   border-radius: 16px;
   background:
@@ -116,26 +125,31 @@
   align-items: center;
   gap: 1.1rem;
   overflow-x: auto;
-  padding: 1rem 0.5rem;
+  padding: 1rem 2.5rem;
   z-index: 1;
+  scroll-behavior: smooth;
+  /* hide the scrollbar — the rail auto-centers the active combatant instead */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* fade combatants out as they leave the visible window at either edge */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
 }
 
 .ini-track::-webkit-scrollbar {
-  height: 8px;
-}
-.ini-track::-webkit-scrollbar-thumb {
-  background: var(--gold-deep);
-  border-radius: 4px;
-}
-
-/* end-of-line marker */
-.ini-end {
-  flex-shrink: 0;
-  font-family: var(--font-display);
-  color: var(--gold-bright);
-  text-align: center;
-  padding: 0 0.5rem;
-  opacity: 0.7;
+  display: none;
 }
 
 /* ---- medallion ---- */
@@ -437,6 +451,6 @@
 
 .dm-hint {
   font-size: 0.8rem;
-  color: var(--candle);
+  color: var(--ink);
   font-style: italic;
 }
