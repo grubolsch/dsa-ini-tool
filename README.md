@@ -106,6 +106,13 @@ Then restart the frontend: `docker compose up -d node` (Vite reads env vars at s
 unset to fall back to the current origin. The value must include the scheme and port and have **no**
 trailing `/play` — the app appends `/play/<CODE>` itself.
 
+## Deployment
+
+For production on **Laravel Forge** (single domain, self-hosted Mercure), see
+[`deploy/README.md`](deploy/README.md). It serves the built SPA and reverse-proxies `/api`,
+`/uploads` and `/.well-known/mercure` to Symfony + Mercure on one origin (no CORS). The folder
+includes the Forge deploy script, the Nginx config to merge, and a production env template.
+
 ## Notes
 - **Gallery images** are not committed (the sample BMP portraits are excluded via `.gitignore`).
   Drop your own `.png` / `.jpg` / `.bmp` files into `backend/public/gallery/` and they'll appear in
