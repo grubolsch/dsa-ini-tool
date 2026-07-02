@@ -12,10 +12,17 @@
 #
 set -e
 
-DOMAIN="your-domain.com"   # <-- change me (used for the built-in Vite/Mercure URLs)
+DOMAIN="dsa.on-forge.com"   # <-- change me (used for the built-in Vite/Mercure URLs)
 
 cd "$FORGE_SITE_PATH"
 git pull origin "$FORGE_SITE_BRANCH"
+
+# ---------- Environment bridge ----------
+# Forge's "Environment" tab writes $FORGE_SITE_PATH/.env, but Symfony (in backend/)
+# reads backend/.env + backend/.env.local. Link it in so prod env vars actually apply
+# (APP_ENV=prod, DATABASE_URL, secrets). Must happen BEFORE composer's post-install
+# cache:clear, or the kernel boots as dev and tries to load the dev-only Fixtures bundle.
+ln -sf "$FORGE_SITE_PATH/.env" "$FORGE_SITE_PATH/backend/.env.local"
 
 # ---------- Backend (Symfony) ----------
 cd backend
