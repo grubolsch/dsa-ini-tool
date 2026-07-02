@@ -76,8 +76,7 @@ export function Home() {
 
   return (
     <div className="page stack">
-      <h1 className="banner-title">Tavern of Initiative</h1>
-      <p className="center muted">A turn-tracker for pen &amp; paper combat.</p>
+      <h1 className="banner-title">Das schwarze auge - Combat manager</h1>
 
       {error && <div className="error-banner">{error}</div>}
 
